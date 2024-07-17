@@ -59,11 +59,13 @@ app.get('/info', (request, response) => {
 
 app.get('/api/persons/:id', (request, response) => {
     const id = request.params.id
-    const personFound = persons.find(person => person.id === id)
-    if (!personFound) {
-        return response.status(404).end()
-    }
-    response.json(personFound)
+    Person.findById(id).then(person => {
+        response.json(person)
+    })
+    .catch(error => {
+        console.log('couldnt find', id)
+        console.log('error message is: ', error.message)
+    })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -79,35 +81,21 @@ const genId = () => {
 }
 
 app.post('/api/persons', (request, response) => {
-    const info = request.body 
+     const body = request.body 
+     console.log(body)
+     if (body.name === undefined) {
+        return response.status(400).json({error: 'name missing'})
+     } else if (body.number === undefined) {
+        return response.status(400).json({error: 'number missing'})
+     }
 
-    if (!info.name || !info.number) {
-        return response.status(400).json({
-            error: 'content missing'
-        })
-    }
-
-    if (persons.find(p => p.name === info.name)) {
-        return response.status(400).json({
-            error: "name must be unique"
-        })
-    }
-    if (persons.find(p => p.number === info.number)) {
-        return response.status(400).json({
-            error: "number must be unique"
-        })
-    }
-    
-    const newPerson = {
-        name: info.name,
-        number: info.number, 
-        id: genId()
-    }
-
-    persons = persons.concat(newPerson)
-
-    response.json(newPerson)
-
+     const person = new Person({
+        name: body.name, 
+        number: body.number,
+     })
+     person.save().then(savedPerson => {
+        response.json(savedPerson)
+     })
 })
 
 

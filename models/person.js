@@ -24,10 +24,9 @@ const personSchema = new mongoose.Schema({
 personSchema.set('toJSON', {
     // 'transform' function called when person is converted to JSON
     transform: (document, returnedObject) => {
-        console.log(`transforming ${returnedObject} since converting to JSON`)
         returnedObject.id = returnedObject._id.toString()
         delete returnedObject._id
-        delete returnedObject._v
+        delete returnedObject.__v
     }
 })
 
