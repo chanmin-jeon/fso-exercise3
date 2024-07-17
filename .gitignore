@@ -1,0 +1,5 @@
+node_modules
+mongo.js
+persons_data.rest
+.env
+mongo.js
