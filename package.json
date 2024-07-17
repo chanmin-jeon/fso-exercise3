@@ -7,7 +7,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:ui": "rm -rf fso-exercise3/dist && cd FSO-Exercises/part-2/part-2-2.5-2.10 && npm run build && cp -r dist ../../../../fso-exercise3/",
+    "build:ui": "rm -rf dist && cd ../FSO-Exercises/part-2/part-2-2.5-2.10 && npm run build && cp -r dist ../../../fso-exercise3/",
     "deploy:full": "npm run build:ui && git add . && git commit -m 'Update UI build' && git push"
   },
   "author": "Chanmin Jeon",
